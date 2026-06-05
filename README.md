@@ -49,16 +49,41 @@ source .venv/bin/activate
 pytest
 ```
 
+## Testing document upload
+
+With the backend running, upload a file via curl:
+
+```bash
+# Upload a text file
+curl -X POST http://localhost:8000/documents \
+  -F "file=@/path/to/your/document.txt"
+
+# Upload a PDF
+curl -X POST http://localhost:8000/documents \
+  -F "file=@/path/to/your/document.pdf"
+
+# List uploaded documents
+curl http://localhost:8000/documents
+```
+
+Or open http://localhost:8000/docs and use the interactive Swagger UI.
+
 ## Project Structure
 
 ```
 notebooklm-clone/
 ├── backend/
 │   ├── app/
-│   │   ├── main.py          # FastAPI app, CORS, router registration
-│   │   ├── config.py        # Settings via pydantic-settings
-│   │   └── api/
-│   │       └── health.py    # GET /health
+│   │   ├── main.py               # FastAPI app, CORS, router registration
+│   │   ├── config.py             # Settings via pydantic-settings
+│   │   ├── api/
+│   │   │   ├── health.py         # GET /health
+│   │   │   └── documents.py      # POST /documents, GET /documents
+│   │   ├── models/
+│   │   │   └── schemas.py        # Pydantic response models
+│   │   └── services/
+│   │       └── extraction.py     # Text extraction (PDF, TXT, Markdown)
+│   ├── storage/uploads/          # Uploaded files and metadata (gitignored)
 │   └── tests/
 ├── frontend/
 │   └── src/

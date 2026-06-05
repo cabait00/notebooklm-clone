@@ -26,7 +26,7 @@ class Settings(BaseSettings):
 
     # Storage
     chroma_persist_dir: str = "./chroma_data"
-    upload_dir: str = "./uploads"
+    upload_dir: str = "./storage/uploads"
 
 
 settings = Settings()
