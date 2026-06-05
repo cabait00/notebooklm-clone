@@ -1,1 +1,0 @@
-This is a test document. Employees may use AI tools for coding assistance and documentation. Sensitive customer data must not be uploaded to external AI tools.
