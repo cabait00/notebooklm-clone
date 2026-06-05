@@ -5,6 +5,9 @@ from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from app.config import settings
 from app.models.schemas import DocumentResponse
+from app.services import embeddings as embedding_service
+from app.services import vector_store
+from app.services.chunking import chunk_text
 from app.services.extraction import extract_text
 
 router = APIRouter()
@@ -50,11 +53,16 @@ async def upload_document(file: UploadFile = File(...)):
         save_path.unlink(missing_ok=True)
         raise HTTPException(status_code=422, detail="No text could be extracted from the file.")
 
+    chunks = chunk_text(text, doc_id, file.filename, file_type)
+    chunk_embeddings = embedding_service.embed_texts([c.text for c in chunks])
+    vector_store.add_document_chunks(chunks, chunk_embeddings)
+
     meta = DocumentResponse(
         document_id=doc_id,
         filename=file.filename,
         file_type=file_type,
         character_count=len(text),
+        chunk_count=len(chunks),
         status="processed",
     )
     meta_path = upload_dir / f"{doc_id}.meta.json"

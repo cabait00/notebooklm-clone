@@ -6,4 +6,5 @@ class DocumentResponse(BaseModel):
     filename: str
     file_type: str
     character_count: int
+    chunk_count: int = 0
     status: str

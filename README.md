@@ -68,6 +68,14 @@ curl http://localhost:8000/documents
 
 Or open http://localhost:8000/docs and use the interactive Swagger UI.
 
+## Local embeddings
+
+The app uses [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+via SentenceTransformers for embeddings. The model (~90 MB) is downloaded from HuggingFace
+automatically on first use and cached locally. No embedding API key needed.
+
+ChromaDB persists the vector store to `backend/storage/chroma/` (gitignored).
+
 ## Project Structure
 
 ```
@@ -82,8 +90,11 @@ notebooklm-clone/
 │   │   ├── models/
 │   │   │   └── schemas.py        # Pydantic response models
 │   │   └── services/
-│   │       └── extraction.py     # Text extraction (PDF, TXT, Markdown)
-│   ├── storage/uploads/          # Uploaded files and metadata (gitignored)
+│   │       ├── extraction.py     # Text extraction (PDF, TXT, Markdown)
+│   │       ├── chunking.py       # Overlapping character chunking
+│   │       ├── embeddings.py     # SentenceTransformers wrapper
+│   │       └── vector_store.py   # ChromaDB wrapper
+│   ├── storage/                  # uploads/ and chroma/ (gitignored)
 │   └── tests/
 ├── frontend/
 │   └── src/

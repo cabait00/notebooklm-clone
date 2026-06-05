@@ -10,6 +10,15 @@ client = TestClient(app)
 @pytest.fixture(autouse=True)
 def use_tmp_upload_dir(tmp_path, monkeypatch):
     monkeypatch.setattr(config_module.settings, "upload_dir", str(tmp_path))
+    # Patch expensive services so tests never load torch or chromadb
+    monkeypatch.setattr(
+        "app.services.embeddings.embed_texts",
+        lambda texts: [[0.0] * 384 for _ in texts],
+    )
+    monkeypatch.setattr(
+        "app.services.vector_store.add_document_chunks",
+        lambda chunks, embeddings: None,
+    )
 
 
 def test_upload_txt_returns_metadata():
@@ -72,3 +81,14 @@ def test_list_documents_empty_initially():
     response = client.get("/documents")
     assert response.status_code == 200
     assert response.json() == []
+
+
+def test_upload_returns_chunk_count():
+    # ~1800 chars — enough for 2 chunks at chunk_size=900, overlap=150
+    content = ("This is a sentence used to fill the document for chunking. " * 30).encode()
+    response = client.post(
+        "/documents",
+        files={"file": ("long.txt", content, "text/plain")},
+    )
+    assert response.status_code == 201
+    assert response.json()["chunk_count"] >= 1

@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     embedding_model: str = "all-MiniLM-L6-v2"
 
     # Storage
-    chroma_persist_dir: str = "./chroma_data"
+    chroma_persist_dir: str = "./storage/chroma"
     upload_dir: str = "./storage/uploads"
 
 
