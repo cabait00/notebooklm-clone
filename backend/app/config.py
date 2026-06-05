@@ -8,7 +8,8 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    anthropic_api_key: str = ""
+    openai_api_key: str = ""
+    llm_provider: str = "openai"
 
     # Chunking
     chunk_size: int = 900
@@ -16,10 +17,12 @@ class Settings(BaseSettings):
 
     # Retrieval
     top_k: int = 4
+    min_similarity: float = 0.25
 
     # LLM
-    llm_model: str = "claude-sonnet-4-6"
+    llm_model: str = "gpt-4.1-mini"
     llm_temperature: float = 0.0
+    llm_max_tokens: int = 1024
 
     # Embedding
     embedding_model: str = "all-MiniLM-L6-v2"

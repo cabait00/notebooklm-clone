@@ -28,6 +28,30 @@ def add_document_chunks(chunks: list[Chunk], embeddings: list[list[float]]) -> N
     )
 
 
+def query(query_embedding: list[float], top_k: int) -> list[dict]:
+    collection = _get_collection()
+    result = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=top_k,
+    )
+    # Chroma returns parallel lists wrapped in an outer list (one per query).
+    documents = result["documents"][0] if result["documents"] else []
+    metadatas = result["metadatas"][0] if result["metadatas"] else []
+    distances = result["distances"][0] if result["distances"] else []
+
+    hits = []
+    for text, metadata, distance in zip(documents, metadatas, distances):
+        hits.append(
+            {
+                "text": text,
+                "metadata": metadata,
+                # Collection uses cosine space, so similarity = 1 - distance.
+                "similarity": 1.0 - distance,
+            }
+        )
+    return hits
+
+
 def delete_document(document_id: str) -> None:
     collection = _get_collection()
     collection.delete(where={"document_id": document_id})
