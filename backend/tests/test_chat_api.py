@@ -55,6 +55,20 @@ def test_chat_empty_question_rejected():
     assert response.status_code == 422
 
 
+def test_chat_llm_failure_returns_503(monkeypatch):
+    monkeypatch.setattr("app.services.rag.retrieve", lambda q: _one_chunk(0.8))
+
+    def fail(system, user_message):
+        raise Exception("Connection timeout")
+
+    monkeypatch.setattr("app.core.llm_client.generate", fail)
+
+    response = client.post("/chat", json={"question": "What does it say?"})
+
+    assert response.status_code == 503
+    assert "unavailable" in response.json()["detail"].lower()
+
+
 def _one_chunk(similarity):
     from app.services.retrieval import RetrievedChunk
 

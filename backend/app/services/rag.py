@@ -8,6 +8,10 @@ REFUSAL_MESSAGE = (
     "I could not find enough evidence in the uploaded documents to answer this question."
 )
 
+
+class LLMUnavailableError(Exception):
+    """Raised when the LLM service fails (bad key, rate limit, network, etc.)."""
+
 SNIPPET_LENGTH = 200
 
 SYSTEM_PROMPT = (
@@ -47,7 +51,10 @@ def answer_question(question: str) -> RagResult:
         return RagResult(answer=REFUSAL_MESSAGE, sources=[], refused=True)
 
     prompt = _build_prompt(question, chunks)
-    answer = llm_client.generate(system=SYSTEM_PROMPT, user_message=prompt).strip()
+    try:
+        answer = llm_client.generate(system=SYSTEM_PROMPT, user_message=prompt).strip()
+    except Exception as exc:
+        raise LLMUnavailableError("LLM call failed") from exc
 
     # Secondary safety mechanism: honour a prompt-level refusal from the model.
     if answer == REFUSAL_MESSAGE:

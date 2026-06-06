@@ -127,7 +127,7 @@ notebooklm-clone/
 │   │   │   ├── documents.py      # POST /documents, GET /documents
 │   │   │   └── chat.py           # POST /chat
 │   │   ├── core/
-│   │   │   └── llm_client.py     # Anthropic (Claude) client wrapper
+│   │   │   └── llm_client.py     # OpenAI client wrapper
 │   │   ├── models/
 │   │   │   └── schemas.py        # Pydantic request/response models
 │   │   └── services/

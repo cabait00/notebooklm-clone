@@ -203,8 +203,9 @@ Use these decisions for the implementation unless I explicitly say otherwise:
 - Use chunk_size = 900 characters.
 - Use chunk_overlap = 150 characters.
 - Use top_k = 4 for retrieval.
-- Use Claude Sonnet for answer generation in the app.
-- Use stronger reasoning models only for planning, architecture review, RAG review, and final code review.
+- Use OpenAI (gpt-4.1-mini) for answer generation in the app.
+- Use Claude Code (Sonnet for implementation, Opus for planning and review) as the AI development assistant.
+- Use stronger reasoning models (Claude Opus) only for planning, architecture review, RAG review, and final code review.
 - Use low temperature for answer generation to make responses more deterministic and less creative.
 - Keep the MVP small, reliable, and demo-ready.
 - Do not implement features outside the defined MVP unless I explicitly approve them.

@@ -93,3 +93,15 @@ def test_secondary_prompt_level_refusal(monkeypatch):
 
     assert result.refused is True
     assert result.sources == []
+
+
+def test_llm_error_raises_unavailable(monkeypatch):
+    monkeypatch.setattr("app.services.rag.retrieve", lambda q: [_chunk(0.8)])
+
+    def fail(system, user_message):
+        raise Exception("API key invalid")
+
+    monkeypatch.setattr("app.core.llm_client.generate", fail)
+
+    with pytest.raises(rag.LLMUnavailableError):
+        rag.answer_question("q")
