@@ -78,3 +78,20 @@ def list_documents():
     for meta_file in sorted(upload_dir.glob("*.meta.json")):
         docs.append(DocumentResponse.model_validate_json(meta_file.read_text()))
     return docs
+
+
+@router.delete("/documents/{document_id}", status_code=204)
+def delete_document(document_id: str):
+    upload_dir = _upload_dir()
+    meta_path = upload_dir / f"{document_id}.meta.json"
+
+    if not meta_path.exists():
+        raise HTTPException(status_code=404, detail="Document not found.")
+
+    # Remove the uploaded file — extension may differ from file_type (e.g. .markdown)
+    for f in upload_dir.glob(f"{document_id}.*"):
+        if not f.name.endswith(".meta.json"):
+            f.unlink(missing_ok=True)
+
+    meta_path.unlink(missing_ok=True)
+    vector_store.delete_document(document_id)

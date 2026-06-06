@@ -19,6 +19,10 @@ def use_tmp_upload_dir(tmp_path, monkeypatch):
         "app.services.vector_store.add_document_chunks",
         lambda chunks, embeddings: None,
     )
+    monkeypatch.setattr(
+        "app.services.vector_store.delete_document",
+        lambda document_id: None,
+    )
 
 
 def test_upload_txt_returns_metadata():
@@ -92,3 +96,35 @@ def test_upload_returns_chunk_count():
     )
     assert response.status_code == 201
     assert response.json()["chunk_count"] >= 1
+
+
+def test_delete_document_returns_204():
+    upload = client.post(
+        "/documents",
+        files={"file": ("to_delete.txt", b"Content to be deleted.", "text/plain")},
+    )
+    assert upload.status_code == 201
+    doc_id = upload.json()["document_id"]
+
+    response = client.delete(f"/documents/{doc_id}")
+    assert response.status_code == 204
+
+
+def test_delete_removes_document_from_list():
+    upload = client.post(
+        "/documents",
+        files={"file": ("deletable.txt", b"This document will be removed.", "text/plain")},
+    )
+    doc_id = upload.json()["document_id"]
+
+    client.delete(f"/documents/{doc_id}")
+
+    listing = client.get("/documents")
+    ids = [d["document_id"] for d in listing.json()]
+    assert doc_id not in ids
+
+
+def test_delete_nonexistent_document_returns_404():
+    response = client.delete("/documents/nonexistent-id-00000000")
+    assert response.status_code == 404
+    assert "not found" in response.json()["detail"].lower()

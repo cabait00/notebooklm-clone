@@ -41,6 +41,16 @@ npm run dev
 
 The frontend will be available at http://localhost:5173.
 
+> **Note:** start the backend first (port 8000) so the frontend can reach it.
+
+## Using the frontend
+
+1. Open http://localhost:5173 in your browser.
+2. **Upload** — click the upload area or drag & drop a PDF, TXT, or Markdown file into the sidebar. The document name and chunk count appear in the list when processing finishes.
+3. **Ask** — type a question in the input at the bottom and press **Enter** (or click **Ask**). Use **Shift+Enter** for a newline.
+4. **Answer** — the answer appears in the main area. Each answer shows the source chunks used (filename, chunk index, similarity score, and a text snippet).
+5. **Refusal** — if the uploaded documents don't contain enough evidence, the answer card is highlighted amber with an "Insufficient evidence" badge.
+
 ### Run backend tests
 
 ```bash
@@ -131,7 +141,18 @@ notebooklm-clone/
 │   └── tests/
 ├── frontend/
 │   └── src/
-│       └── App.tsx
+│       ├── types.ts              # Shared TypeScript types
+│       ├── App.tsx               # Root layout (sidebar + chat area)
+│       ├── App.css               # App layout and component styles
+│       ├── index.css             # Global reset and CSS variables
+│       ├── api/
+│       │   └── client.ts         # fetch wrappers for backend API
+│       └── components/
+│           ├── UploadArea.tsx    # Drag & drop / click file upload
+│           ├── DocumentList.tsx  # Uploaded document list in sidebar
+│           ├── ChatPanel.tsx     # Chat history + question input
+│           ├── AnswerView.tsx    # Single answer card with refused state
+│           └── SourceList.tsx    # Source citation cards
 └── docs/
     ├── architecture.md
     ├── demo-script.md

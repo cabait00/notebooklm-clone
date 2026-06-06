@@ -1,0 +1,27 @@
+Everlast AI - Testdokument für den NotebookLM-Klon
+
+Everlast AI ist ein deutsches Unternehmen für KI-Beratung und KI-Implementierung. Das Unternehmen unterstützt Firmen dabei, praktische, messbare und sichere KI-Systeme einzuführen.
+
+Der Fokus von Everlast AI liegt darauf, Unternehmen beim Einsatz von künstlicher Intelligenz im echten Geschäftsalltag zu helfen. Dabei geht es nicht nur um theoretische Strategie, sondern vor allem um die konkrete Umsetzung produktiver KI-Lösungen.
+
+Everlast AI entwickelt KI-Systeme, die Unternehmen helfen können, mehr Kunden zu gewinnen, Arbeitsabläufe zu automatisieren, interne Prozesse zu verbessern und messbare Geschäftsergebnisse zu erzielen.
+
+Wichtige Arbeitsbereiche sind KI-Strategie, Workflow-Automatisierung, Voice Agents, RAG-Pipelines, Wissensmanagement-Systeme, KI-gestützte Softwareentwicklung, Prompt-Engineering-Workshops und KI-Schulungen.
+
+Das Unternehmen betont, dass Datenschutz und Compliance wichtige Bestandteile der Umsetzung sind. Everlast AI hebt DSGVO-konforme Entwicklung, Bewusstsein für den EU AI Act und Hosting in deutschen Rechenzentren, zum Beispiel in Frankfurt, hervor.
+
+Everlast AI bietet auch Schulungen und Beratungsformate an. Dazu gehören Team-Workshops, Prompt-Engineering-Masterclasses, KI-Reifegradanalysen, Claude-Code-Workshops, Change Management und Unterstützung bei der Einführung von KI im Unternehmen.
+
+Beispielhafte Anwendungsfälle sind Umsatzprognosen, intelligente Wissensdatenbanken, Sentiment-Analysen, A/B-Testing mit KI, Code-Generierung, Vertragsprüfung, Compliance-Monitoring, Übersetzungen, Immobilienbewertung und Personalisierung im E-Commerce.
+
+Der Umsetzungsprozess beginnt laut Everlast AI häufig mit Validierung und Prototypen, bevor Lösungen skaliert werden. Die Umsetzung erfolgt in kurzen Zyklen mit Demo-Sessions, automatisierten Tests, Reviews, Integrationstests, Security Audits und kontinuierlichem Monitoring.
+
+Everlast AI betont messbare Ergebnisse. Das Unternehmen spricht davon, mit vielen Kunden und Projekten gearbeitet zu haben, viele Arbeitstage durch KI-Prozesse einzusparen und den Fokus auf definierte KPIs und ROI zu legen.
+
+Everlast AI nennt Integrationen mit gängigen Business-Tools wie Google Analytics, HubSpot, Shopify, Stripe, Slack, Contentful, Mailchimp, Jira, Notion, Salesforce, Zapier, Microsoft 365, Airtable, SAP und Twilio.
+
+Eine zentrale Botschaft von Everlast AI ist, dass Unternehmen nicht nur mit KI experimentieren sollten. Stattdessen sollen produktive KI-Systeme gebaut werden, die sicher, regelkonform und im echten Geschäftsbetrieb nützlich sind.
+
+Leonard Schmedding wird als Co-Founder und Chief AI Officer von Everlast AI vorgestellt. Er wird als KI-Experte im deutschsprachigen Markt beschrieben und ist mit dem Everlast-AI-YouTube-Kanal verbunden.
+
+Für eine KI-Developer-Rolle beschreibt Everlast AI Aufgaben rund um KI-Lösungen für kleine und mittelständische Unternehmen. Dazu gehören LLMs, KI-Telefonagenten und smarte Automatisierungen. Die Rolle umfasst Umsetzung, Beratung, Schulung und die aktive Mitgestaltung praktischer KI-Einführung.
