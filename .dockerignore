@@ -1,0 +1,36 @@
+# Git / CI
+.git
+.gitignore
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/venv/
+**/env/
+**/.pytest_cache/
+**/.coverage
+**/htmlcov/
+**/*.egg-info/
+
+# Secrets and local config (never bake into the image)
+**/.env
+**/*.env.local
+
+# Local runtime storage (uploads + ChromaDB)
+backend/storage/
+
+# Node (installed fresh inside the build stage)
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Docs not needed in the image (root-level .md files only; index.html is unaffected)
+docs/
+*.md

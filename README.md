@@ -1,3 +1,16 @@
+---
+title: NotebookLM Clone
+emoji: 📚
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
+<!-- The YAML block above is metadata for Hugging Face Spaces (Docker SDK).
+     It must start on line 1. GitHub and normal Markdown renderers ignore it. -->
+
 # NotebookLM Clone
 
 A RAG application where you upload documents and ask questions grounded in their content.
@@ -158,3 +171,52 @@ notebooklm-clone/
     ├── demo-script.md
     └── prompts.md
 ```
+
+## Deployment (Hugging Face Spaces, Docker)
+
+The app ships as a single Docker image: a multi-stage `Dockerfile` builds the
+React frontend and FastAPI serves the static build same-origin, so there is one
+container and one public URL (no separate frontend host, no CORS config).
+
+### Test the Docker image locally first
+
+```bash
+# Build (run from the repo root)
+docker build -t notebooklm-clone .
+
+# Run; map the container's 7860 to localhost:8080 and pass the OpenAI key.
+docker run --rm -p 8080:7860 -e OPENAI_API_KEY=sk-... notebooklm-clone
+```
+
+Then open http://localhost:8080 — the full UI (upload, ask, sources) is served
+by FastAPI. Health check: http://localhost:8080/health. The first build is slow
+because PyTorch is installed and the embedding model is pre-downloaded into the
+image; later builds use the layer cache.
+
+### Deploy to Hugging Face Spaces
+
+1. Create a free account at https://huggingface.co.
+2. **New Space** → choose **Docker** (Blank template) → **Free CPU basic**.
+3. In the Space, go to **Settings → Variables and secrets** and add a **Secret**
+   named `OPENAI_API_KEY`. (Never commit the key; `.env` is gitignored.)
+4. Push this repository to the Space's git remote (shown when the Space is
+   created):
+
+   ```bash
+   git remote add space https://huggingface.co/spaces/<user>/<space-name>
+   git push space deploy:main
+   ```
+
+   Hugging Face reads the YAML header in `README.md` (`sdk: docker`,
+   `app_port: 7860`), builds the image, and starts the container. The app is
+   then public at `https://<user>-<space-name>.hf.space`.
+
+### Notes for a demo
+
+- **Ephemeral storage:** the container filesystem (uploaded files +
+  `backend/storage/chroma/`) is wiped on rebuild/restart. Fine for a live demo;
+  persistent storage on Spaces is a paid feature.
+- **Cold start:** free Spaces sleep after ~48 h of inactivity and take a few
+  seconds to wake on the first request.
+- **Cost control:** the app is public and uses your OpenAI key. `gpt-4.1-mini`
+  is cheap — still, set a usage limit in your OpenAI account.
