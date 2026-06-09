@@ -1,6 +1,8 @@
 import type { DocumentResponse, Source } from "../types";
 
-const BASE = "http://localhost:8000";
+// Empty in production: the frontend is served same-origin by FastAPI.
+// Override via VITE_API_BASE for local dev (see frontend/.env.development).
+const BASE = import.meta.env.VITE_API_BASE ?? "";
 
 export async function uploadDocument(file: File): Promise<DocumentResponse> {
   const form = new FormData();
